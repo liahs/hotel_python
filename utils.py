@@ -1,6 +1,6 @@
 import pymongo 
 
-connection_string = 'mongodb+srv://dbuser:resubd@cluster0.oq7ov.mongodb.net/final_project'
+connection_string = 'mongodb+srv://dbuser:resubd@cluster0.oq7ov.mongodb.net/final_project?retryWrites=true&w=majority'
 
 def get_db_handle():
  client = pymongo.MongoClient(connection_string)
