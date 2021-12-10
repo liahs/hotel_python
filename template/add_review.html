@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="row">  
+    <div class="col-md-8 mx-auto grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title text-center">Restaurant Food Review Prediction</h4>
+          <div class="text-center">
+            <img src="/static/images/ml.gif" style="height:200px;">
+          </div>
+          {% if status %}
+            <div class="alert alert-info">{{status}}</div>
+          {% endif %}
+          <form class="forms-sample" method="post">
+            {% csrf_token %}   
+            <div class="form-group">
+                <label for="exampleSelectGender">Restaurant</label>
+                  <select class="form-control" name="restaurant">
+                    {% for rest in restaurants %}
+                        <option value="{{ rest.r_id }}">{{ rest.name }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+            <div class="form-group">
+                <label for="exampleSelectGender">Your Name</label>
+                  <select class="form-control" name="username">
+                    {% for user in users %}
+                        <option value="{{ user.uid }}">{{ user.name }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleTextarea1">Your Review</label>
+                <textarea class="form-control" name="review" rows="4" placeholder="Your Review" ></textarea>
+              </div>
+        
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <button type="reset" class="btn btn-light">Reset</button>
+           
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

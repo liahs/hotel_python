@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Restaurant Overview</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" />
+    <style>
+        .bg-image{
+            background-image: url('/static/images/background.webp');
+            height: 250px;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .bg-image h1{
+            line-height: 250px;
+            margin: 0px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row bg-image">
+            <div class="col-md-12 text-center" style="background-color: rgba(0,0,0,0.5);">
+                <h1>Restaurants ({{ details|length }})</h1>
+            </div>
+        </div>
+        <div class="row mt-4">
+            {% for rest in details %}
+                <div class="col-md-4 my-4">
+                    <div class="card alert alert-danger">
+                        <div class="card-header text-center">
+                            <h4>{{ rest.name }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <p class="height:20px;display:block;width:100%;">No. of dishes:</span> <span class="float-right">{{ rest.no_of_dishes }}</span> </p>
+                                <p class="height:20px;display:block;width:100%;">No. of ratings:</span> <span class="float-right">{{ rest.no_of_ratings }}</span> </p>
+                                <p class="height:20px;display:block;width:100%;">No. of positive reviews:</span> <span class="float-right">{{ rest.no_of_positive_reviews }}</span> </p>
+                                <p class="height:20px;display:block;width:100%;">No. of negative reviews:</span> <span class="float-right">{{ rest.no_of_negative_reviews }}</span> </p>
+                                <p class="height:20px;display:block;width:100%;">Location:</span> <span class="float-right">{{ rest.location }}</span> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if u_status %}
+    <script>
+        alert('{{ u_status }}');
+        window.location.href = '/all_restaurants/';
+    </script>
+{% endif %}
+
+<div class="row">  
+    <div class="col-md-8 mx-auto grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">
+            {% if update %}
+                Update Restaurant
+            {% else %}
+                Add Restaurant
+            {% endif %}
+          </h4>
+          {% if status %}
+            <div class="alert alert-info">{{status}}</div>
+          {% endif %}
+          <form class="forms-sample" method="post">
+            {% csrf_token %}    
+            <div class="form-group">
+              <label for="exampleInputName1">Name</label>
+              <input type="text" class="form-control" placeholder="Name" name="name" value="{{ restaurant.name }}">
+            </div>
+            <div class="form-group">
+              <label for="exampleSelectGender">Type</label>
+                <select class="form-control" name="type">
+                    {% if restaurant.type == "veg" %}
+                        <option selected>Veg</option>
+                        <option>Non-Veg</option>
+                    {% else %}
+                        <option>Veg</option>
+                        <option selected>Non-Veg</option>
+                    {% endif %}
+
+                </select>
+              </div>
+            <div class="form-group">
+              <label for="exampleTextarea1">Location</label>
+              <textarea class="form-control" name="location" rows="4" placeholder="Location" >{{ restaurant.location }}</textarea>
+            </div>
+            {% if update %}
+            <input type="hidden" name="id" value="{{ restaurant.id }}">
+            <button type="submit" class="btn btn-primary mr-2" name="update">Update</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <button type="reset" class="btn btn-light">Reset</button>
+            {% endif %}
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+{% endblock %}

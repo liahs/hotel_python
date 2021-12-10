@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="row">  
+    <div class="col-md-8 mx-auto grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title text-center">Add Food Rating</h4>
+          {% if status %}
+            <div class="alert alert-info">{{status}}</div>
+          {% endif %}
+          <form class="forms-sample" method="post">
+            {% csrf_token %}   
+            <div class="form-group">
+                <label for="exampleSelectGender">Restaurant</label>
+                  <select class="form-control" name="restaurant">
+                    {% for rest in restaurants %}
+                        <option value="{{ rest.r_id }}">{{ rest.name }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+            <div class="form-group">
+                <label for="exampleSelectGender">Your Name</label>
+                  <select class="form-control" name="username">
+                    {% for user in users %}
+                        <option value="{{ user.uid }}">{{ user.name }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleTextarea1">Add Rating</label>
+                <select class="form-control" name="rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+              </div>
+        
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <button type="reset" class="btn btn-light">Reset</button>
+           
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

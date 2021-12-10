@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Restaurant Reviews Analysis</title>
+
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'vendors/feather/feather.css' %}">
+    <!-- endinject -->
+
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="/static/vendors/ti-icons/css/themify-icons.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+  {% block head  %} {% endblock %}
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="{% url 'index' %}"><img src="/static/images/logo.png" class="mr-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="{% url 'index' %}"><img src="/static/images/logo.png" alt="logo"/></a>
+      </div>
+      
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+      <ul class="navbar-nav navbar-nav-right">
+       
+        <li class="nav-item nav-profile dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+            Welcome {{ request.COOKIES.username }}!
+            <span class="rounded-circle font-weight-bold d-inline-block" style="height:30px; width:30px; line-height:30px; text-align:center; background-color: gray; color: white;"> {{ request.COOKIES.username.0 }} </span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            <a class="dropdown-item" href="/logout">
+              <i class="ti-power-off text-primary"></i>
+              Logout
+            </a>
+          </div>
+        </li>
+        
+      </ul>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+  
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'index' %}">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <i class="icon-head menu-icon"></i>
+              <span class="menu-title">Users</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'add_user' %}"> Add User </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'all_users' %}"> All Users </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="icon-layout menu-icon"></i>
+              <span class="menu-title">Restaurants</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'add_restaurant' %}">Add Restaurant</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'all_restaurants' %}">All Restaurants</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#dish" aria-expanded="false" aria-controls="ui-basic">
+              <i class="icon-drop menu-icon"></i>
+              <span class="menu-title">Dish</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="dish">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'add_dish' %}">Add Dish</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'all_dishes' %}">All Dishes</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+              <i class="icon-contract menu-icon"></i>
+              <span class="menu-title">Review Prediction</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="form-elements">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="{% url 'add_review' %}">Add Review</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'all_reviews' %}">All Reviews</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+              <i class="icon-bar-graph menu-icon"></i>
+              <span class="menu-title">Ratings</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="charts">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'add_rating' %}">Add Rating</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'all_ratings' %}">All Ratings</a></li>
+              </ul>
+            </div>
+          </li>
+          
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          
+          {% block body %} {% endblock %}
+      
+        </div>
+        <!-- content-wrapper ends -->
+   
+      </div>
+      <!-- main-panel ends -->
+    </div>
+  </div>
+  <script src="{% static 'vendors/jquery.js' %}" ></script>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  {% block script %} {% endblock %}
+</body>
+
+</html>
+

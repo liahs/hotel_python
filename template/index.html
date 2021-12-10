@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row">
+    <div class="col-md-12 grid-margin">
+      <div class="row">
+        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+          <h3 class="font-weight-bold">Welcome!</h3>
+          <h6 class="font-weight-normal mb-0">Here you can find details of Restaurants, Users etc.</span></h6>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card tale-bg">
+        <div class="card-people mt-auto">
+          <img src="/static/images/people.svg" alt="people">
+          
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 grid-margin transparent">
+      <div class="row">
+        <div class="col-md-6 mb-4 stretch-card transparent">
+          <div class="card card-tale">
+            <div class="card-body">
+              <p class="mb-4">Total Users</p>
+              <p class="fs-30 mb-2">{{ total_users }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4 stretch-card transparent">
+          <div class="card card-dark-blue">
+            <div class="card-body">
+              <p class="mb-4">Total Restaurants</p>
+              <p class="fs-30 mb-2">{{ total_restaurants }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
+          <div class="card card-light-blue">
+            <div class="card-body">
+              <p class="mb-4">Number of Dishes</p>
+              <p class="fs-30 mb-2">{{ total_dishes }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 stretch-card transparent">
+          <div class="card card-light-danger">
+            <div class="card-body">
+              <p class="mb-4">Number of Reviews</p>
+              <p class="fs-30 mb-2">{{ total_reviews }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-title">Reviews Bar Graph</p>
+          <p class="font-weight-500">Trend between total number of positive and negative reviews</p>
+              {{ reviews_bar_graph|safe }}
+          </div>
+        </div>
+      </div>
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-title">Ratings Horizontal Bar Graph</p>
+          <p class="font-weight-500">Trend between total number of ratings</p>
+              {{ ratings_bar_graph|safe }}
+          </div>
+        </div>
+      </div>
+    
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-title">Gender Pie Graph</p>
+          <p class="font-weight-500">No of users per gender</p>
+              {{ gender_pie_chart|safe }}
+          </div>
+        </div>
+      </div>
+    
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-title">Age Histogram</p>
+          <p class="font-weight-500">No of users per gender</p>
+              {{ age_histogram|safe }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+{% endblock %}
