@@ -131,7 +131,19 @@
               </ul>
             </div>
           </li>
-          
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#dish_review" aria-expanded="false" aria-controls="dish_review">
+              <i class="icon-bar-graph menu-icon"></i>
+              <span class="menu-title">Dish Review</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="dish_review">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'add_dish_review' %}">Add Dish Review</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'all_dish_reviews' %}">All Dish Review</a></li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
       <!-- partial -->

@@ -464,3 +464,72 @@ class delete_rating(TemplateView):
     def get(self, request, id):
         ratings_table.delete_one({'_id': ObjectId(id)})
         return HttpResponseRedirect('/all_ratings/')
+
+
+class delete_dish_review(TemplateView):
+    def get(self,request, id):
+        dish_review.delete_one({'_id': ObjectId(id)})
+        return HttpResponseRedirect('/all_dish_review/')
+
+class all_dish_reviews(TemplateView):
+    template_name = 'all_dish_review.html'
+    def get(self, request):
+        context = {}
+        reviews = get_all_dish_reviews()
+        allreviews = []
+        for review in reviews:
+            rvw = dict(review)
+            try:
+                 rvw['restaurant'] = rest_table.find_one({'_id':ObjectId(rvw['restaurant'])})['name']
+            except:
+                rvw['restaurant']='testing restaurant'
+            try:
+                rvw['user'] = user_table.find_one({'_id':review['user']})['name']
+            except:
+                rvw['user'] = 'test'
+            try:
+                rvw['dish']=dish_table.find_one({'_id':review['dish']})['name']
+            except:
+                rvw['dish']="testing dish"
+            rvw.update({'id':rvw['_id']})
+            allreviews.append(rvw)
+        context['reviews'] = allreviews
+        return render(request, self.template_name, context)
+
+class add_dish_review(TemplateView):
+    context= {}
+    template_name = 'add_dish_review.html'
+    def get(self,request):
+        restaurants = get_all_restaurants()
+        all_rests = []
+        for rest in restaurants:
+            rst = dict(rest)
+            rst.update({'r_id':rest['_id']})
+            all_rests.append(rst)
+        self.context['restaurants'] = all_rests
+        
+        users = get_all_users()
+        all_users = []
+        for user in users:
+            usr = dict(user)
+            usr.update({'uid':user['_id']})
+            all_users.append(usr)
+        self.context['users'] = all_users
+        all_dishes=[]
+        dishes=get_all_dishes()
+        for dish in dishes:
+            ds = dict(dish)
+            ds.update({'id':dish['_id']})
+            all_dishes.append(ds)
+        self.context["dishes"]=all_dishes
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        restaurant = request.POST['restaurant']
+        user = request.POST['user']
+        msg = request.POST['msg']
+        dish=request.POST["dish"]
+        status=request.POST['status']
+        insert_dish_review(ObjectId(restaurant),ObjectId(dish), ObjectId(user), msg, status)
+        self.context['status'] = status
+        return render(request, self.template_name, self.context)

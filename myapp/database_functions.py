@@ -8,6 +8,7 @@ rest_table = database["restaurants"]
 dish_table = database["dishes"]
 reviews_table = database["restreviews"]
 ratings_table = database["restaurantratings"]
+dish_review=database["dishreviews"]
 
 def insert_user(name, password, gender, age, experience, address):
     mydict = { "name": name, "pass": password, "gender":gender, "age":age, "exp":experience, "address":address }
@@ -56,7 +57,15 @@ def insert_rating(restaurant, username, rating):
 def get_all_reviews():
     cursor  = reviews_table.find()
     return cursor
-    
+
+def get_all_dish_reviews():
+    cursor=dish_review.find()
+    return cursor
+
+def insert_dish_review(restaurant,dish,user,msz,status):
+    mydict = { "restaurant": restaurant,"dish":dish, "user":user, "msg":msz, "status":status }
+    dish_review.insert_one(mydict) 
+
 def get_all_ratings():
     cursor  = ratings_table.find()
     return cursor
