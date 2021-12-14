@@ -234,6 +234,7 @@ class add_restaurant(TemplateView):
     context= {}
     template_name = 'add_restaurant.html'
     def get(self,request):
+        self.context={}
         if "q" in request.GET:
             id = request.GET.get('q')
             rest_data = rest_table.find_one({'_id':ObjectId(id)})
@@ -243,6 +244,7 @@ class add_restaurant(TemplateView):
         return render(request, self.template_name , self.context)
 
     def post(self, request):
+        self.context={}
         name = request.POST['name']
         type = request.POST['type']
         location = request.POST['location']
