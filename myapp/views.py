@@ -346,11 +346,22 @@ class delete_dish(TemplateView):
 class add_review(TemplateView):
     context= {}
     template_name = 'add_review.html'
+    
+    
+    
+    
+    
+    
     def prediction(self,text):
         converted_text = count_vectorizor_model.transform([text])  
         result = model.predict(converted_text)
         decoded_result = decoded_obj[result[0]]
         return {"class":result[0], "text":decoded_result}
+
+
+
+
+
     def get(self,request):
         restaurants = get_all_restaurants()
         all_rests = []
@@ -515,6 +526,7 @@ class add_dish_review(TemplateView):
             usr.update({'uid':user['_id']})
             all_users.append(usr)
         self.context['users'] = all_users
+        
         all_dishes=[]
         dishes=get_all_dishes()
         for dish in dishes:
