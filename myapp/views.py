@@ -256,7 +256,7 @@ class add_restaurant(TemplateView):
                 "location":location,
             }}
             rest_table.update_one(myquery, newvalues) 
-            self.context['u_status'] = 'Restaurant Updated Successfully!'
+            self.context['status'] = 'Restaurant Updated Successfully!'
         else:
             if insert_restaurant(name, type, location):
                 self.context['status'] = 'Restaurant Added Successfully!'
