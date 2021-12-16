@@ -2,7 +2,7 @@ import pymongo
 from utils import get_db_handle
 
 database, client = get_db_handle()
-
+# 
 user_table = database["User"]
 rest_table = database["restaurants"]
 dish_table = database["dishes"]
@@ -10,8 +10,9 @@ reviews_table = database["restreviews"]
 ratings_table = database["restaurantratings"]
 dish_review=database["dishreviews"]
 
-def insert_user(name, password, gender, age, experience, address):
-    mydict = { "name": name, "pass": password, "gender":gender, "age":age, "exp":experience, "address":address }
+# databse functions which we are going to use views classes
+def insert_user(name, gender, age , address):
+    mydict = { "name": name, "gender":gender, "age":age,"address":address }
     x = user_table.insert_one(mydict)
     if x:
         return True 

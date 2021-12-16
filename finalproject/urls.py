@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
+# my apps views classes   Class-based views 
 from myapp import views
 
+# project urls from myapp
+#when we hit any url in the browser localhost:8000/overiview it will goto overview path 3rd one in the url patterns array
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.login.as_view(), name='login'),    

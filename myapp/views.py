@@ -12,15 +12,21 @@ import numpy as np
 import pickle
 import pandas as pd
 
+
+#for trianing the model we need the data from  models folder from root
+
 cv_file = open('models/review_cv.pkl',"rb")
 count_vectorizor_model = pickle.load(cv_file)
-
+# models trained
 model = pickle.load(open("models/review_model_log.pkl", "rb"))
 decoded_obj = {0:"Negative Feedback! We will try to improve it!",1:"Positive Feedback! Thanks for your support!"}
 
+
+# class overview is used in urls.py as view which is dashboard page render overview.html page from  template folder
+#template folder already recognize by django since we added TEMPLATE_DIR in settings.py inside finalproject folder and added to TEMPLATES
 class overview(TemplateView):
     template_name = "overview.html"
-
+    # get request will show this page overview of all restaruants
     def get(self, request):
         context = {}
         all_restaurants = get_all_restaurants()
@@ -58,6 +64,9 @@ class overview(TemplateView):
         context['details'] = details
         return render(request, self.template_name, context)
 
+# login view uses login.html template , where username and password will be needed to access to the dashboard
+# username and password both are admin
+# after successfully it will redirect to dashboard
 class login(TemplateView):
     template_name = 'login.html'
     def get(self, request):
@@ -84,15 +93,16 @@ class login(TemplateView):
             return render(request, self.template_name, context)
         except:
             return HttpResponse('<h1>Something went wrong!</h1><p>Please check your internet connectivity!</p>')
-
+# for logout route
 class logout(TemplateView):
     def get(self,request):
         res = HttpResponseRedirect('/')
         res.delete_cookie('username')
         return res
-
+# home page that is dashboard and render index.html template graphs and chart are shown in here
 class home(TemplateView):
     template_name = 'index.html'
+    # bar_graph
     def return_bar_graph(self, x,y,xlabel,ylabel, graph_type=None):    
         fig = plt.figure(figsize=(5,4))
         if graph_type == None:
@@ -110,7 +120,7 @@ class home(TemplateView):
 
         data = imgdata.getvalue()
         return data
-
+# will return pie chart
     def return_pie_graph(self, x,y,colors):    
         fig = plt.figure(figsize=(5,4))
         plt.pie(y, labels=x)
@@ -121,7 +131,7 @@ class home(TemplateView):
 
         data = imgdata.getvalue()
         return data
-
+# will return age histogram
     def return_age_hist(self, x):    
         fig = plt.figure(figsize=(5,4))
         plt.hist(x)
@@ -132,7 +142,7 @@ class home(TemplateView):
 
         data = imgdata.getvalue()
         return data
-
+# show the page dashboard render from  this method since it is get request
     def get(self, request):
         context = {}
         p,n=0,0
@@ -176,6 +186,7 @@ class home(TemplateView):
         
         return render(request, self.template_name, context)
 
+# class for adding user get and post method are used in here to add user
 class add_user(TemplateView):
     context = {}
     template_name = 'add_user.html'
@@ -189,10 +200,8 @@ class add_user(TemplateView):
         return render(request, self.template_name, self.context)
     def post(self, request):
         name = request.POST['name']
-        passw = request.POST['password']
         gen = request.POST['gender']
         age = request.POST['age']
-        exp = request.POST['experience']
         addr = request.POST['address']
         
         if "update" in request.POST:
@@ -200,18 +209,19 @@ class add_user(TemplateView):
             myquery = {'_id': ObjectId(id_to_update)}
             newvalues = {"$set":{
                 "name":name, 
-                "pass":passw,"gender":gen,"age":age, "exp":exp,"address":addr
+                "gender":gen,"age":age,"address":addr
             }}
             user_table.update_one(myquery, newvalues) 
             self.context['u_status'] = 'User Updated Successfully!'
         else:
-            if insert_user(name, passw, gen, age, exp, addr):
+            if insert_user(name,gen,age,addr):
                 self.context['status'] = 'User Added Successfully!'
             else:
                 self.context['status'] = "Couldn't add user, try again!"
 
         return render(request, 'add_user.html', self.context)
 
+#  all users 
 class all_users(TemplateView): 
     template_name = 'all_users.html'
     def get(self, request):
@@ -349,20 +359,11 @@ class add_review(TemplateView):
     context= {}
     template_name = 'add_review.html'
     
-    
-    
-    
-    
-    
     def prediction(self,text):
         converted_text = count_vectorizor_model.transform([text])  
         result = model.predict(converted_text)
         decoded_result = decoded_obj[result[0]]
         return {"class":result[0], "text":decoded_result}
-
-
-
-
 
     def get(self,request):
         restaurants = get_all_restaurants()
