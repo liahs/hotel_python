@@ -391,7 +391,7 @@ class add_review(TemplateView):
         review = request.POST['review']
         data = self.prediction(review)
         if data['class'] == 0:
-            review_class = 'negtive'
+            review_class = 'negative'
         elif data['class'] == 1:
             review_class = 'positive'
 
